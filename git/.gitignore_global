@@ -1,0 +1,32 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Log files
+*.log
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+
+# Compiled files
+*.class
+*.o
+*.pyc
+
+# Backup files
+*.bak
+*.tmp
+
+# nvim plugin mananger
+lazy-lock.json
