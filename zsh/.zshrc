@@ -16,6 +16,13 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
+# Add in snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::aws
+zinit snippet OMZP::docker
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::command-not-found
+
 # Load completions
 autoload -Uz compinit && compinit
 
@@ -47,6 +54,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias ls='ls --color'
+alias l='ls -lah'
 alias v='nvim'
 alias k='kubectl'
 alias c='clear'

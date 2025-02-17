@@ -9,7 +9,7 @@ config.enable_tab_bar = false
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 config.default_cursor_style = "BlinkingBar"
-config.color_scheme = "Nord (Gogh)" -- Color scheme corregido
+config.color_scheme = "Gruvbox Dark (Gogh)"
 config.font = wezterm.font("RobotoMono Nerd Font", { weight = "Bold" })
 config.font_size = 15
 

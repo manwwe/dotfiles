@@ -15,7 +15,7 @@ return {
     -- Keymaps for CtrlSF
     local opts = { noremap = true, silent = true }
     vim.keymap.set("n", "<leader>s;", ":CtrlSF ", opts) -- Start a search
-    vim.keymap.set("n", "<leader>sn", ":CtrlSFCwordExec ", opts) -- Search for word under cursor
+    vim.keymap.set("n", "<leader>su", ":CtrlSFCwordExec ", opts) -- Search for word under cursor
     vim.keymap.set("n", "<leader>sc", ":CtrlSFClose<CR>", opts) -- Close search window
   end,
 }
