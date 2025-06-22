@@ -17,7 +17,7 @@ wezterm.on("gui-startup", function()
 end)
 
 -- Default settings configuration
-config.color_scheme = "Gruvbox Material (Gogh)" -- Set the color scheme
+config.color_scheme = "catppuccin-frappe" -- Set the color scheme
 config.automatically_reload_config = true -- Automatically reload the configuration when changes are detected
 config.tab_bar_at_bottom = true -- Display the tab bar at the bottom
 config.use_fancy_tab_bar = false -- Disable the fancy tab bar
