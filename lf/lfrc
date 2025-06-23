@@ -1,0 +1,5 @@
+set icons true
+set hiddenfiles .git
+set drawbox true
+
+map e $nvim "$f"
