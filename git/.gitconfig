@@ -1,0 +1,39 @@
+[user]
+    name = Franklin Garcia
+    email  = fm-garcia@outlook.com
+    signingkey = ~/.ssh/ssh_github
+    sshSigning = true
+
+[core]
+    editor = nvim
+    pager = less -F -X
+    excludesfile = ~/.gitignore_global
+
+[init]
+    defaultBranch = main
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    ca = commit --amend
+    lg = log --oneline --graph --decorate --all
+
+[color]
+    ui = auto
+
+[push]
+    default = current
+
+[help]
+    autocorrect = 1
+
+[diff]
+    colorMoved = default
+
+[rebase]
+    autoSquash = true
+
+[fetch]
+    prune = true
