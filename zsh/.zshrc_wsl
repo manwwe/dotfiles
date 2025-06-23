@@ -1,0 +1,11 @@
+export PATH="/home/linuxbrew/.linuxbrew/opt/starship/bin:$PATH"
+export PATH="$HOME/.fzf/bin:$PATH"
+export http_proxy="http://localhost:9000"
+export HTTP_PROXY="http://localhost:9000"
+export https_proxy="http://localhost:9000"
+export HTTPS_PROXY="http://localhost:9000"
+export no_proxy=""
+export NO_PROXY=""
+export PATH="$HOME/.local/bin:$PATH"
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

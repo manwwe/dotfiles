@@ -19,8 +19,6 @@ zinit light Aloxaf/fzf-tab
 # Add in snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::aws
-zinit snippet OMZP::docker
-zinit snippet OMZP::kubectl
 zinit snippet OMZP::command-not-found
 
 # Load completions
@@ -52,18 +50,38 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Aliases
-alias ls='ls --color'
-alias l='ls -lah'
-alias v='nvim'
+# Docker Compose Aliases
+alias dc='docker compose'
+alias dcu='docker compose up'
+alias dcud='docker compose up -d'
+alias dcd='docker compose down'
+alias dcl='docker compose logs'
+alias dce='docker compose exec'
+alias dcr='docker compose run'
+
+# Kubernetes Aliases
 alias k='kubectl'
+alias kn='kubectl -n'
+alias hn='helm -n'
+
+# Aliases
+alias l='eza -l -a --icons'
+alias ls='eza --icons'
+alias v='nvim'
 alias c='clear'
 alias t='tmux'
 alias e='exit'
-alias ls='ls --color=auto'
+alias tree='eza -T'
+alias ..='cd ..'
 
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(starship init zsh)"
 
+# Detect WSL (Windows Subsystem for Linux)
+if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null; then
+  source ~/.zshrc_wsl
+fi
+
+fastfetch
