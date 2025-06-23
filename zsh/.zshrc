@@ -71,7 +71,7 @@ alias v='nvim'
 alias c='clear'
 alias t='tmux'
 alias e='exit'
-alias tree='eza -T'
+alias tree='eza -T -s=type -a --git-ignore'
 alias ..='cd ..'
 
 # Shell integrations
