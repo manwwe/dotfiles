@@ -64,6 +64,8 @@ alias k='kubectl'
 alias kn='kubectl -n'
 alias hn='helm -n'
 
+alias tf='terraform'
+
 # Aliases
 alias l='eza -l -a --icons'
 alias ls='eza --icons'

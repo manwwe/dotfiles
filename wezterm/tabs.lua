@@ -1,39 +1,39 @@
 local wezterm = require("wezterm") --[[@as Wezterm]]
 local M = {}
-M.arrow_solid = ""
+M.arrow_solid = ""
 M.arrow_thin = ""
 M.icons = {
- ["C:\\WINDOWS\\system32\\cmd.exe"] = wezterm.nerdfonts.md_console_line,
- ["Topgrade"] = wezterm.nerdfonts.md_rocket_launch,
- ["bash"] = wezterm.nerdfonts.cod_terminal_bash,
- ["btm"] = wezterm.nerdfonts.mdi_chart_donut_variant,
- ["cargo"] = wezterm.nerdfonts.dev_rust,
- ["curl"] = wezterm.nerdfonts.mdi_flattr,
- ["docker"] = wezterm.nerdfonts.linux_docker,
- ["docker-compose"] = wezterm.nerdfonts.linux_docker,
- ["fish"] = wezterm.nerdfonts.md_fish,
- ["gh"] = wezterm.nerdfonts.dev_github_badge,
- ["git"] = wezterm.nerdfonts.dev_git,
- ["go"] = wezterm.nerdfonts.seti_go,
- ["htop"] = wezterm.nerdfonts.md_chart_areaspline,
- ["btop"] = wezterm.nerdfonts.md_chart_areaspline,
- ["kubectl"] = wezterm.nerdfonts.linux_docker,
- ["kuberlr"] = wezterm.nerdfonts.linux_docker,
- ["lazydocker"] = wezterm.nerdfonts.linux_docker,
- ["lua"] = wezterm.nerdfonts.seti_lua,
- ["make"] = wezterm.nerdfonts.seti_makefile,
- ["node"] = wezterm.nerdfonts.mdi_hexagon,
- ["nvim"] = wezterm.nerdfonts.custom_vim,
- ["pacman"] = "󰮯 ",
- ["paru"] = "󰮯 ",
- ["psql"] = wezterm.nerdfonts.dev_postgresql,
- ["pwsh.exe"] = wezterm.nerdfonts.md_console,
- ["ruby"] = wezterm.nerdfonts.cod_ruby,
- ["sudo"] = wezterm.nerdfonts.fa_hashtag,
- ["vim"] = wezterm.nerdfonts.dev_vim,
- ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
- ["zsh"] = wezterm.nerdfonts.dev_terminal,
- ["lazygit"] = wezterm.nerdfonts.cod_github,
+    ["C:\\WINDOWS\\system32\\cmd.exe"] = wezterm.nerdfonts.md_console_line,
+    ["Topgrade"] = wezterm.nerdfonts.md_rocket_launch,
+    ["bash"] = wezterm.nerdfonts.cod_terminal_bash,
+    ["btm"] = wezterm.nerdfonts.mdi_chart_donut_variant,
+    ["cargo"] = wezterm.nerdfonts.dev_rust,
+    ["curl"] = wezterm.nerdfonts.mdi_flattr,
+    ["docker"] = wezterm.nerdfonts.linux_docker,
+    ["docker-compose"] = wezterm.nerdfonts.linux_docker,
+    ["fish"] = wezterm.nerdfonts.md_fish,
+    ["gh"] = wezterm.nerdfonts.dev_github_badge,
+    ["git"] = wezterm.nerdfonts.dev_git,
+    ["go"] = wezterm.nerdfonts.seti_go,
+    ["htop"] = wezterm.nerdfonts.md_chart_areaspline,
+    ["btop"] = wezterm.nerdfonts.md_chart_areaspline,
+    ["kubectl"] = wezterm.nerdfonts.linux_docker,
+    ["kuberlr"] = wezterm.nerdfonts.linux_docker,
+    ["lazydocker"] = wezterm.nerdfonts.linux_docker,
+    ["lua"] = wezterm.nerdfonts.seti_lua,
+    ["make"] = wezterm.nerdfonts.seti_makefile,
+    ["node"] = wezterm.nerdfonts.mdi_hexagon,
+    ["nvim"] = wezterm.nerdfonts.custom_vim,
+    ["pacman"] = "󰮯 ",
+    ["paru"] = "󰮯 ",
+    ["psql"] = wezterm.nerdfonts.dev_postgresql,
+    ["pwsh.exe"] = wezterm.nerdfonts.md_console,
+    ["ruby"] = wezterm.nerdfonts.cod_ruby,
+    ["sudo"] = wezterm.nerdfonts.fa_hashtag,
+    ["vim"] = wezterm.nerdfonts.dev_vim,
+    ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
+    ["zsh"] = wezterm.nerdfonts.dev_terminal,
+    ["lazygit"] = wezterm.nerdfonts.cod_github,
 }
 
 ---@param tab MuxTabObj
@@ -47,7 +47,7 @@ function M.title(tab, tab_index, max_width)
     local process, other = original_title:match("^(%S+)%s*%-?%s*%s*(.*)$")
 
     -- Construir el título con número del tab
-    local tab_number = tostring(tab_index -1)
+    local tab_number = tostring(tab_index - 1)
     local display_title = original_title
 
     -- Si encontramos un icono para el proceso, lo usamos
