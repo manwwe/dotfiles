@@ -1,48 +1,50 @@
 # Dotfiles
 
-This repository contains my personal configuration files (“dotfiles”) for tools I use every day as a developer.  
-The setup is structured by tool, and it’s optimized for macOS and WSL (Windows Subsystem for Linux).
+Personal development environment configuration, organized by tool and centered on a macOS terminal workflow.
 
-## 📁 Structure
+## Structure
 
+```text
+.
+├── agents/              # Codex local config, guidance and installed skills
+├── ascii_art/           # Terminal art used by fastfetch
+├── editors/             # Shared editor defaults (.editorconfig)
+├── ghostty/             # Ghostty terminal config
+├── git/                 # Global git config and ignore rules
+├── lazygit/             # Lazygit UI and keybinding tweaks
+├── lf/                  # lf file manager config and icons
+├── sqruff/              # SQL formatting/lint config
+├── starship/            # Shell prompt theme
+├── tmux/                # Tmux session and statusline config
+├── wezterm/             # WezTerm modules and key/mouse behavior
+├── zsh/                 # Shell startup, aliases and plugin setup
+└── README.md
 ```
 
-├── editors
-│   └── .editorconfig          # Editor settings (indentation, charset, etc.)
-├── git
-│   └── .gitignore\_global      # Global git ignore rules
-├── lf
-│   ├── icons                  # Custom icons for lf file manager (requires Nerd Font)
-│   └── lfrc                   # lf configuration file
-├── starship
-│   └── starship.toml          # Starship prompt configuration
-├── wezterm
-│   ├── macos\_config.lua       # WezTerm config for macOS
-│   ├── wezterm.lua            # Main WezTerm config
-│   └── wsl\_config.lua         # WezTerm config for WSL
-├── zsh
-│   ├── .zshrc                 # Main Zsh configuration
-│   └── .zshrc\_wsl             # Extra settings for Zsh under WSL
-├── .gitignore                 # Ignore rules for this repository
-└── README.md                  # This file
+## Highlights
 
-```
+- `ghostty/config`: minimal terminal setup with split navigation, clipboard shortcuts and borderless window styling.
+- `tmux/.tmux.conf`: `C-s` prefix, Vim-style pane movement, popup session switcher with `fzf`, and Catppuccin statusline.
+- `zsh/.zshrc`: Zinit plugin bootstrap, directory shortcuts, Docker/Kubernetes/Git aliases, `fzf`, `zoxide`, `starship`, and `fastfetch`.
+- `starship/starship.toml`: prompt segments for directory, git, language runtimes and time.
+- `lazygit/config.yaml`: custom navigation, `delta` paging, and `gh browse` shortcuts.
+- `agents/`: local Codex agent rules plus bundled skills such as `git-commit`, `brainstorming`, `systematic-debugging`, and `interface-design`.
 
-## ℹ️ About
+## Notes
 
-- **editors/**: Settings for consistent editor behavior across VSCode, Vim, and other editors that support `.editorconfig`.
-- **git/**: Global `.gitignore` for ignoring common files and directories across all repos.
-- **lf/**: Custom configuration and icons for the [lf file manager](https://github.com/gokcehan/lf).
-- **starship/**: [Starship](https://starship.rs/) prompt configuration for a minimal, informative shell prompt.
-- **wezterm/**: Separate WezTerm terminal emulator configs for macOS, WSL, and general use.
-- **zsh/**: Shell configuration, including an extra file for settings specific to WSL environments.
+- A Nerd Font is expected for terminal icons and prompt symbols.
+- Some shell behavior assumes tools like `eza`, `fzf`, `zoxide`, `fastfetch`, `tmux`, `delta`, `gh`, and `kubectl` are installed.
+- `fastfetch` uses [`ascii_art/snorlax.ans`](/Users/ender/repos/github/dotfiles/ascii_art/snorlax.ans).
+- The repository includes both `Ghostty` and `WezTerm`, but the current terminal workflow is primarily documented through `ghostty/` and `tmux/`.
 
-## 📝 Notes
+## Setup
 
-- These dotfiles are tailored for my workflow and might need adjustments for other setups.
-- You’ll need a [Nerd Font](https://www.nerdfonts.com/) installed for some icons to display correctly.
-- Most files are symlinked into my `$HOME` directory using a custom install script (not included here).
+There is no installer in this repository. The files are meant to be linked or copied into the expected locations manually, for example:
 
----
+- `zsh/.zshrc` -> `~/.zshrc`
+- `starship/starship.toml` -> `~/.config/starship.toml`
+- `ghostty/config` -> `~/.config/ghostty/config`
+- `tmux/.tmux.conf` -> `~/.tmux.conf`
+- `lazygit/config.yaml` -> `~/Library/Application Support/lazygit/config.yml` or `~/.config/lazygit/config.yml`
 
-Feel free to use or adapt anything here for your own setup.
+Adapt paths as needed for your own machine.
