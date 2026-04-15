@@ -16,11 +16,6 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
-# Add in snippets
-zinit snippet OMZP::git
-zinit snippet OMZP::aws
-zinit snippet OMZP::command-not-found
-
 # Load completions
 autoload -Uz compinit && compinit
 
@@ -50,6 +45,13 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+# Dirs
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
 # Docker Compose Aliases
 alias dc='docker compose'
 alias dcu='docker compose up'
@@ -59,11 +61,29 @@ alias dcl='docker compose logs'
 alias dce='docker compose exec'
 alias dcr='docker compose run'
 
-# Kubernetes Aliases
+# Kubernetes
 alias k='kubectl'
 alias kn='kubectl -n'
 alias hn='helm -n'
 
+# Git
+alias gc="git commit -m"
+alias gca="git commit -a -m"
+alias gp="git push origin HEAD"
+alias gpu="git pull origin"
+alias gst="git status"
+alias glog="git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit"
+alias gdiff="git diff"
+alias gco="git checkout"
+alias gb='git branch'
+alias gba='git branch -a'
+alias gadd='git add'
+alias ga='git add -p'
+alias gcoall='git checkout -- .'
+alias gr='git remote'
+alias gre='git reset'
+
+# Terraform
 alias tf='terraform'
 
 # Aliases
@@ -74,16 +94,16 @@ alias c='clear'
 alias t='tmux'
 alias e='exit'
 alias tree='eza -T -s=type -a --git-ignore'
-alias ..='cd ..'
 
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(starship init zsh)"
 
-# Detect WSL (Windows Subsystem for Linux)
-if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null; then
-  source ~/.zshrc_wsl
-fi
+autoload -Uz add-zsh-hook
 
-fastfetch
+# fastfetch
+fastfetch --file ~/repos/github/dotfiles/ascii_art/snorlax.ans
+
+# Port Kill
+export PATH="$PATH:/Users/ender/.local/bin"
