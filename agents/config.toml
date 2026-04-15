@@ -1,0 +1,43 @@
+# =========================
+# Model
+# =========================
+
+model_verbosity = "low"
+hide_agent_reasoning = false
+
+# =========================
+# Approval & Safety
+# =========================
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
+writable_roots = ["./"]
+
+# =========================
+# Shell Environment
+# =========================
+
+[shell_environment_policy]
+inherit = "none"
+include_only = ["PATH", "HOME"]
+exclude = ["AWS_*", "AZURE_*", "GCP_*", "SECRET*", "TOKEN*"]
+
+# =========================
+# Project
+# =========================
+
+project_root_markers = [".git"]
+
+# =========================
+# History & Privacy
+# =========================
+
+[history]
+persistence = "save-all"
+max_bytes = 104857600
+
+[analytics]
+enabled = false
