@@ -28,5 +28,11 @@ vendor/
 *.bak
 *.tmp
 
+# AI tooling
+.agents/
+.cursor/
+.claude/
+**/docs/superpowers/
+
 # nvim plugin mananger
 lazy-lock.json
