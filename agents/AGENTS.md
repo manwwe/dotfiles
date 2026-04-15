@@ -129,3 +129,50 @@ For explanations:
 - Be concise and direct.
 - Avoid unnecessary verbosity.
 - Focus on actionable and useful responses.
+
+---
+
+## Token Efficiency Strategy
+
+Agents should minimise token usage by applying semantic compression when appropriate.
+
+Guidelines:
+
+- Remove non-essential grammar (articles, auxiliary verbs, filler words)
+- Preserve key entities, actions, and technical terms
+- Maintain semantic meaning even if syntax is degraded
+- Prefer concise, information-dense phrasing for internal reasoning
+
+Example:
+"Optimize database queries by adding indexes to frequently accessed columns"
+→ "Optimize database queries. Add indexes frequently accessed columns"
+
+---
+
+## Reasoning Style
+
+- Use compressed, information-dense internal representations when possible.
+- Prioritise signal over syntax during internal reasoning steps.
+
+---
+
+## Prompt Construction
+
+- When building prompts for LLM calls:
+  - Prefer compressed phrasing
+  - Remove redundant or low-value context
+  - Keep prompts information-dense
+
+---
+
+## Context Handling
+
+- Store and retrieve compressed representations when possible to maximise context window usage.
+- Expand only when necessary for correctness or clarity.
+
+---
+
+## Output Quality Constraint
+
+- NEVER use compressed language in user-facing responses.
+- ALWAYS expand responses to natural, clear, and well-structured language.
