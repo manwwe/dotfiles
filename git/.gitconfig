@@ -1,6 +1,6 @@
 [user]
     name = Franklin Garcia
-    email  = fm-garcia@outlook.com
+    email  = fm@fmgarcia.dev
     signingkey = ~/.ssh/ssh_github
     sshSigning = true
 
