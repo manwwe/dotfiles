@@ -1,0 +1,52 @@
+{
+  "Print": {
+    "prefix": "pr",
+    "body": ["print(${1:value})$0"],
+    "description": "Print a value"
+  },
+  "Function": {
+    "prefix": "def",
+    "body": ["def ${1:name}(${2:args}):", "    ${0:pass}"],
+    "description": "Define a function"
+  },
+  "Async Function": {
+    "prefix": "adef",
+    "body": ["async def ${1:name}(${2:args}):", "    ${0:pass}"],
+    "description": "Define an async function"
+  },
+  "Class": {
+    "prefix": "class",
+    "body": ["class ${1:Name}:", "    def __init__(self${2:, args}):", "        ${0:pass}"],
+    "description": "Define a class"
+  },
+  "Main Guard": {
+    "prefix": "main",
+    "body": ["if __name__ == \"__main__\":", "    ${0:main()}"],
+    "description": "Python main guard"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": ["for ${1:item} in ${2:items}:", "    ${0:pass}"],
+    "description": "For loop"
+  },
+  "Enumerate Loop": {
+    "prefix": "enum",
+    "body": ["for ${1:index}, ${2:item} in enumerate(${3:items}):", "    ${0:pass}"],
+    "description": "Enumerate loop"
+  },
+  "Try Except": {
+    "prefix": "try",
+    "body": ["try:", "    ${1:pass}", "except ${2:Exception} as ${3:exc}:", "    ${0:raise}"],
+    "description": "Try/except block"
+  },
+  "Dataclass": {
+    "prefix": "dataclass",
+    "body": ["from dataclasses import dataclass", "", "", "@dataclass", "class ${1:Name}:", "    ${2:field}: ${3:type}$0"],
+    "description": "Dataclass definition"
+  },
+  "Pytest Test": {
+    "prefix": "test",
+    "body": ["def test_${1:name}():", "    ${0:assert True}"],
+    "description": "Pytest test function"
+  }
+}

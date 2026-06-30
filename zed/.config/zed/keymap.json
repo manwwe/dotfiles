@@ -1,0 +1,83 @@
+// Zed keymap
+[
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "ctrl-j": "editor::ContextMenuNext",
+      "ctrl-k": "editor::ContextMenuPrevious"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j j": "vim::NormalBefore",
+      "ctrl-space": "editor::ShowCompletions",
+      "ctrl-n": "editor::ShowCompletions",
+      "ctrl-p": "editor::ShowWordCompletions"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "space w": "workspace::Save",
+      "space shift-w": "workspace::SaveWithoutFormat",
+      "space a": "workspace::ToggleRightDock",
+      "space e": "workspace::ToggleLeftDock",
+      "space c": "editor::ShowCompletions",
+      "space shift-c": "editor::ShowWordCompletions",
+      "space p": "workspace::ToggleEditPrediction",
+      "space t t": "workspace::NewTerminal",
+      "space t r": [
+        "task::Spawn",
+        {
+          "task_name": "run current file"
+        }
+      ],
+      "space s a": "editor::SelectAll",
+      "H": [
+        "editor::MoveToBeginningOfLine",
+        {
+          "stop_at_soft_wraps": false,
+          "stop_at_indent": true
+        }
+      ],
+      "L": [
+        "editor::MoveToEndOfLine",
+        {
+          "stop_at_soft_wraps": false
+        }
+      ],
+      "tab": "pane::ActivateNextItem",
+      "shift-tab": "pane::ActivatePreviousItem",
+      "space b d": "pane::CloseActiveItem",
+      "space b n": "workspace::NewFile",
+      "space s v": "pane::SplitRight",
+      "space s h": "pane::SplitDown",
+      "space s e": "workspace::ResetPaneSizes",
+      "space s x": "pane::CloseActiveItem",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      "J": "editor::MoveLineDown",
+      "K": "editor::MoveLineUp",
+      "<": "editor::Outdent",
+      ">": "editor::Indent"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-t": "workspace::NewTerminal",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight"
+    }
+  }
+]

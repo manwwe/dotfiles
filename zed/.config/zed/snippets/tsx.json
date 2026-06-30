@@ -1,0 +1,17 @@
+{
+  "React Component": {
+    "prefix": "rfc",
+    "body": ["export function ${1:Component}() {", "  return (", "    <div>${0}</div>", "  );", "}"],
+    "description": "React function component"
+  },
+  "Console Log": {
+    "prefix": "log",
+    "body": ["console.log(${1:value});$0"],
+    "description": "console.log"
+  },
+  "Use State": {
+    "prefix": "us",
+    "body": ["const [${1:value}, set${2:Value}] = useState(${3:initialValue});$0"],
+    "description": "React useState"
+  }
+}

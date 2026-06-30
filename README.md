@@ -17,6 +17,7 @@ Personal development environment configuration, organized by tool and centered o
 ├── starship/            # Shell prompt theme
 ├── tmux/                # Tmux session and statusline config
 ├── wezterm/             # WezTerm modules and key/mouse behavior
+├── zed/                 # Zed editor settings and keymap
 ├── zsh/                 # Shell startup, aliases and plugin setup
 └── README.md
 ```
@@ -28,6 +29,7 @@ Personal development environment configuration, organized by tool and centered o
 - `zsh/.zshrc`: Zinit plugin bootstrap, directory shortcuts, Docker/Kubernetes/Git aliases, `fzf`, `zoxide`, `starship`, and `fastfetch`.
 - `starship/starship.toml`: prompt segments for directory, git, language runtimes and time.
 - `lazygit/config.yaml`: custom navigation, `delta` paging, and `gh browse` shortcuts.
+- `zed/.config/zed/`: clean Zed settings and keymap for a Vim-oriented workflow.
 - `agents/`: local Codex agent rules plus bundled skills such as `git-commit`, `brainstorming`, `systematic-debugging`, and `interface-design`.
 
 ## Notes
@@ -44,6 +46,8 @@ There is no installer in this repository. The files are meant to be linked or co
 - `zsh/.zshrc` -> `~/.zshrc`
 - `starship/starship.toml` -> `~/.config/starship.toml`
 - `ghostty/config` -> `~/.config/ghostty/config`
+- `zed/.config/zed/settings.json` -> `~/.config/zed/settings.json`
+- `zed/.config/zed/keymap.json` -> `~/.config/zed/keymap.json`
 - `tmux/.tmux.conf` -> `~/.tmux.conf`
 - `lazygit/config.yaml` -> `~/Library/Application Support/lazygit/config.yml` or `~/.config/lazygit/config.yml`
 

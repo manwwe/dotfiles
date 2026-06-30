@@ -94,6 +94,17 @@ alias c='clear'
 alias t='tmux'
 alias e='exit'
 alias tree='eza -T -s=type -a --git-ignore'
+alias ld='lazydocker'
+alias lsql='lazysql'
+
+zed() {
+   if [[ "$1" == "--help" || "$1" == "--version" ]]; then
+      command zed "$@"
+      return
+   fi
+
+   command zed "$@" >/dev/null 2>&1 &!
+}
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -103,7 +114,9 @@ eval "$(starship init zsh)"
 autoload -Uz add-zsh-hook
 
 # fastfetch
-fastfetch --file ~/repos/github/dotfiles/ascii_art/snorlax.ans
+if [[ "$TERM_PROGRAM" != "zed" ]]; then
+   fastfetch --file ~/repos/github/dotfiles/ascii_art/snorlax.ans
+fi
 
 # Port Kill
 export PATH="$PATH:/Users/ender/.local/bin"

@@ -1,0 +1,13 @@
+[
+  {
+    "label": "run current file",
+    "command": "case \"$ZED_LANGUAGE\" in Python) python3 \"$ZED_FILE\" ;; Lua) lua \"$ZED_FILE\" ;; \"Shell Script\") bash \"$ZED_FILE\" ;; C) binary=$(mktemp /tmp/zed-run-c.XXXXXX) && cc -Wall -Wextra -pedantic -std=c11 \"$ZED_FILE\" -o \"$binary\" && \"$binary\" ;; \"C++\") binary=$(mktemp /tmp/zed-run-cpp.XXXXXX) && c++ -Wall -Wextra -pedantic -std=c++20 \"$ZED_FILE\" -o \"$binary\" && \"$binary\" ;; *) echo \"Unsupported language: $ZED_LANGUAGE\"; exit 1 ;; esac",
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": true,
+    "reveal": "always",
+    "hide": "never",
+    "save": "current",
+    "reevaluate_context": true
+  }
+]

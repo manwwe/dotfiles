@@ -1,0 +1,134 @@
+// Zed settings
+{
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_family": "RobotoMono Nerd Font Mono",
+  "buffer_font_size": 13,
+  "cursor_blink": false,
+  "show_completions_on_input": true,
+  "show_completion_documentation": true,
+  "current_line_highlight": "all",
+  "diagnostics": {
+    "button": true,
+    "include_warnings": true,
+    "inline": {
+      "enabled": false,
+      "min_column": 80,
+      "max_severity": "warning"
+    }
+  },
+  "gutter": {
+    "diagnostic_badges": true
+  },
+  "scrollbar": {
+    "diagnostics": "all"
+  },
+  "tabs": {
+    "show_diagnostics": "all"
+  },
+  "line_numbers": true,
+  "relative_line_numbers": "enabled",
+  "vertical_scroll_margin": 8,
+  "soft_wrap": "none",
+  "show_edit_predictions": false,
+  "tab_size": 4,
+  "hard_tabs": false,
+  "format_on_save": "on",
+  "remove_trailing_whitespace_on_save": true,
+  "ensure_final_newline_on_save": true,
+  "terminal": {
+    "shell": "system"
+  },
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  "icon_theme": "Material Icon Theme",
+  "theme_overrides": {
+    "One Dark": {
+      "vim.normal.background": "#1e1e2e",
+      "vim.normal.foreground": "#89b4fa",
+      "vim.insert.background": "#1e1e2e",
+      "vim.insert.foreground": "#a6e3a1",
+      "vim.visual.background": "#1e1e2e",
+      "vim.visual.foreground": "#f5c2e7",
+      "vim.replace.background": "#1e1e2e",
+      "vim.replace.foreground": "#f38ba8"
+    },
+    "One Light": {
+      "vim.normal.background": "#eff1f5",
+      "vim.normal.foreground": "#1e66f5",
+      "vim.insert.background": "#eff1f5",
+      "vim.insert.foreground": "#40a02b",
+      "vim.visual.background": "#eff1f5",
+      "vim.visual.foreground": "#ea76cb",
+      "vim.replace.background": "#eff1f5",
+      "vim.replace.foreground": "#d20f39"
+    }
+  },
+  "edit_predictions": {
+    "provider": "copilot"
+  },
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "play_sound_when_agent_done": "always",
+    "default_model": {
+      "effort": "medium",
+      "enable_thinking": true,
+      "provider": "openai-subscribed",
+      "model": "gpt-5.5"
+    }
+  },
+  "languages": {
+    "Python": {
+      "language_servers": ["basedpyright", "ruff"],
+      "format_on_save": "on",
+      "tab_size": 4,
+      "formatter": {
+        "language_server": {
+          "name": "ruff"
+        }
+      },
+      "code_actions_on_format": {
+        "source.organizeImports.ruff": true
+      }
+    },
+    "Rust": {
+      "language_servers": ["rust-analyzer", "..."],
+      "format_on_save": "on"
+    },
+    "TypeScript": {
+      "language_servers": ["vtsls", "..."],
+      "format_on_save": "on"
+    },
+    "TSX": {
+      "language_servers": ["vtsls", "..."],
+      "format_on_save": "on"
+    },
+    "JavaScript": {
+      "language_servers": ["vtsls", "..."],
+      "format_on_save": "on"
+    }
+  }
+}

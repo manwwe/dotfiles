@@ -1,0 +1,17 @@
+{
+  "Console Log": {
+    "prefix": "log",
+    "body": ["console.log(${1:value});$0"],
+    "description": "console.log"
+  },
+  "Function": {
+    "prefix": "fn",
+    "body": ["function ${1:name}(${2:args}) {", "  ${0}", "}"],
+    "description": "Function declaration"
+  },
+  "Arrow Function": {
+    "prefix": "af",
+    "body": ["const ${1:name} = (${2:args}) => {", "  ${0}", "};"],
+    "description": "Arrow function"
+  }
+}
