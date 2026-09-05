@@ -3,3 +3,11 @@ set hiddenfiles .git
 set drawbox true
 
 map e $nvim "$f"
+
+cmd delete ${{
+    printf "Delete '%s'? [y/N] " "$fx"
+    read ans
+    [ "$ans" = "y" ] && rm -rf -- $fx
+}}
+
+map d delete

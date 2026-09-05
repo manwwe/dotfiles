@@ -50,4 +50,7 @@ indent_style= space
 max_line_length = 150
 quote_style = auto_prefer_single
 
+[*.tf]
+indent_style = space
+indent_size = 2
 
