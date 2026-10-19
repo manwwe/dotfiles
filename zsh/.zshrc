@@ -97,6 +97,11 @@ alias tree='eza -T -s=type -a --git-ignore'
 alias ld='lazydocker'
 alias lsql='lazysql'
 
+# C/C++ copiler
+crun() {
+    clang++ -std=c++17 -O2 -Wall -Wextra "$1" -o /tmp/cp && /tmp/cp
+}
+
 zed() {
    if [[ "$1" == "--help" || "$1" == "--version" ]]; then
       command zed "$@"
@@ -120,3 +125,6 @@ fi
 
 # Port Kill
 export PATH="$PATH:/Users/ender/.local/bin"
+
+# LLVM path
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
