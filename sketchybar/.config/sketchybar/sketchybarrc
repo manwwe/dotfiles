@@ -1,0 +1,292 @@
+#!/bin/bash
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+export CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+source "$CONFIG_DIR/colors.sh"
+
+sketchybar --bar position=top height=32 color="$BAR" \
+  padding_left=10 padding_right=10 sticky=on topmost=window
+sketchybar --default icon.font='RobotoMono Nerd Font:SemiBold:13.0' \
+  label.font='RobotoMono Nerd Font:Medium:13.0' icon.color="$TEXT" label.color="$TEXT" \
+  icon.padding_left=8 icon.padding_right=4 label.padding_left=4 \
+  label.padding_right=8 background.height=24 background.corner_radius=6 \
+  background.color="$SURFACE" background.drawing=off
+
+# Apple menu: system shortcuts.
+sketchybar --add item apple left \
+  --set apple icon='' icon.font='RobotoMono Nerd Font:SemiBold:20.0' label.drawing=off \
+    script="\"$CONFIG_DIR/plugins/apple.sh\"" \
+    popup.align=left popup.height=40 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=2 popup.background.border_color="$GREEN" \
+  --subscribe apple mouse.clicked mouse.exited.global
+for action in preferences activity lock sleep restart shutdown; do
+  case "$action" in
+    preferences) label='Preferences'; icon='' ;;
+    activity) label='Activity'; icon='' ;;
+    lock) label='Lock Screen'; icon='' ;;
+    sleep) label='Sleep'; icon='' ;;
+    restart) label='Restart…'; icon='' ;;
+    shutdown) label='Shut Down…'; icon='' ;;
+  esac
+  sketchybar --add item "apple.$action" popup.apple \
+    --set "apple.$action" label="$label" icon="$icon" \
+      icon.font='RobotoMono Nerd Font:SemiBold:20.0' icon.width=32 \
+      label.font='RobotoMono Nerd Font:SemiBold:15.0' label.padding_right=18 \
+      click_script="\"$CONFIG_DIR/plugins/apple.sh\" $action"
+done
+
+sketchybar --add event aerospace_workspace_change
+# Match the persistent workspaces in .aerospace.toml.
+for workspace in 1 2 3 4 5 6 7; do
+  sketchybar --add item "space.$workspace" left \
+    --set "space.$workspace" icon.drawing=off label="$workspace" \
+      width=28 label.width=28 label.align=center label.padding_left=0 label.padding_right=0 \
+      background.color="$ACCENT" \
+      click_script="aerospace workspace $workspace" \
+      label.y_offset=0
+
+ done
+sketchybar --add item workspace_observer left \
+  --set workspace_observer drawing=off updates=on update_freq=30 \
+    script="\"$CONFIG_DIR/plugins/workspaces.sh\"" \
+  --subscribe workspace_observer aerospace_workspace_change system_woke
+
+sketchybar --add item front_app left \
+  --set front_app icon.drawing=on icon.font='RobotoMono Nerd Font:Regular:16.0' update_freq=10 label.color="$MUTED" \
+    script="\"$CONFIG_DIR/plugins/front_app.sh\"" \
+  --subscribe front_app front_app_switched system_woke
+sketchybar --add item clock center \
+  --set clock icon.drawing=on icon.font='RobotoMono Nerd Font:Bold:13.0' \
+    label.font='RobotoMono Nerd Font:Regular:13.0' update_freq=30 \
+    script="\"$CONFIG_DIR/plugins/clock.sh\"" \
+    popup.align=center popup.height=24 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$SURFACE" \
+  --subscribe clock system_woke mouse.clicked mouse.exited.global
+for row in 0 1 2 3 4 5 6 7; do
+  sketchybar --add item "calendar.$row" popup.clock \
+    --set "calendar.$row" icon.drawing=off label.font='RobotoMono Nerd Font Mono:Regular:12.0' \
+      label.padding_left=14 label.padding_right=14
+ done
+sketchybar --add item battery right \
+  --set battery icon.drawing=on icon.font='RobotoMono Nerd Font:SemiBold:16.0' \
+    label.font='RobotoMono Nerd Font:SemiBold:11.0' label.padding_left=0 label.padding_right=4 \
+    label.drawing=off update_freq=60 \
+    script="\"$CONFIG_DIR/plugins/battery.sh\"" \
+  --subscribe battery power_source_change system_woke
+# Standard BLE battery service fallback (e.g. Logitech mice).
+if [ ! -x "$CONFIG_DIR/helpers/bluetooth_battery" ] || \
+   [ "$CONFIG_DIR/helpers/bluetooth_battery.m" -nt "$CONFIG_DIR/helpers/bluetooth_battery" ]; then
+  /usr/bin/clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG_DIR/helpers/bluetooth_battery.m" \
+    -framework Foundation -framework CoreBluetooth -o "$CONFIG_DIR/helpers/bluetooth_battery"
+fi
+sketchybar --add item bluetooth right \
+  --set bluetooth icon='󰂯' icon.font='RobotoMono Nerd Font:SemiBold:16.0' icon.color="$TEXT" label.drawing=off update_freq=180 \
+    script="\"$CONFIG_DIR/plugins/bluetooth.sh\"" \
+    popup.align=right popup.height=36 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$ACCENT" \
+  --subscribe bluetooth mouse.clicked mouse.exited.global system_woke
+sketchybar --add item bluetooth.status popup.bluetooth \
+  --set bluetooth.status icon.drawing=off label='Checking Bluetooth…' \
+    label.padding_left=14 label.padding_right=18
+sketchybar --add item bluetooth.devices popup.bluetooth \
+  --set bluetooth.devices icon.drawing=off label='Connected devices' \
+    label.color="$MUTED" label.padding_left=14 label.padding_right=18
+sketchybar --add item bluetooth.toggle popup.bluetooth \
+  --set bluetooth.toggle icon='' label='Toggle Bluetooth' \
+    click_script="\"$CONFIG_DIR/plugins/bluetooth.sh\" toggle"
+sketchybar --add item bluetooth.settings popup.bluetooth \
+  --set bluetooth.settings icon='' label='Bluetooth Settings…' \
+    click_script="\"$CONFIG_DIR/plugins/bluetooth.sh\" settings"
+sketchybar --add item wifi right \
+  --set wifi icon='' icon.font='RobotoMono Nerd Font:Regular:15.0' \
+    icon.color="$TEXT" label.drawing=off update_freq=60 \
+    script="\"$CONFIG_DIR/plugins/wifi.sh\"" \
+    popup.align=right popup.height=36 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$ACCENT" \
+  --subscribe wifi mouse.clicked mouse.exited.global system_woke
+for detail in status network ip security; do
+  sketchybar --add item "wifi.$detail" popup.wifi \
+    --set "wifi.$detail" icon.drawing=off label='Checking…' \
+      label.padding_left=14 label.padding_right=18
+done
+sketchybar --add item wifi.settings popup.wifi \
+  --set wifi.settings icon='' label='Wi-Fi Settings…' \
+    click_script="\"$CONFIG_DIR/plugins/wifi.sh\" settings"
+# CoreAudio process input status (macOS 14.2+); compile locally when needed.
+if [ ! -x "$CONFIG_DIR/helpers/mic_status" ] || \
+   [ "$CONFIG_DIR/helpers/mic_status.c" -nt "$CONFIG_DIR/helpers/mic_status" ]; then
+  /usr/bin/clang -O2 -Wall -Wextra "$CONFIG_DIR/helpers/mic_status.c" \
+    -framework CoreAudio -o "$CONFIG_DIR/helpers/mic_status"
+fi
+sketchybar --add item mic right \
+  --set mic icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    icon.color="$RED" label.drawing=off drawing=off update_freq=2 \
+    script="\"$CONFIG_DIR/plugins/mic.sh\"" \
+  --subscribe mic system_woke
+# CoreMediaIO reports system-wide camera activity.
+if [ ! -x "$CONFIG_DIR/helpers/camera_status" ] || \
+   [ "$CONFIG_DIR/helpers/camera_status.m" -nt "$CONFIG_DIR/helpers/camera_status" ]; then
+  /usr/bin/clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG_DIR/helpers/camera_status.m" \
+    -framework CoreMediaIO -o "$CONFIG_DIR/helpers/camera_status"
+fi
+sketchybar --add item camera right \
+  --set camera icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    icon.color="$GREEN" label.drawing=off drawing=off update_freq=2 \
+    script="\"$CONFIG_DIR/plugins/camera.sh\"" \
+  --subscribe camera system_woke
+# Collapsible controls; the initial state is collapsed.
+sketchybar --add item controls right \
+  --set controls icon='' icon.font='RobotoMono Nerd Font:Bold:14.0' \
+    label.drawing=off click_script="\"$CONFIG_DIR/plugins/controls.sh\""
+# CPU utilization and physical memory usage.
+if [ ! -x "$CONFIG_DIR/helpers/system_usage" ] || \
+   [ "$CONFIG_DIR/helpers/system_usage.c" -nt "$CONFIG_DIR/helpers/system_usage" ]; then
+  /usr/bin/clang -O2 -Wall -Wextra "$CONFIG_DIR/helpers/system_usage.c" \
+    -o "$CONFIG_DIR/helpers/system_usage"
+fi
+sketchybar --add item cpu right \
+  --set cpu drawing=off updates=when_shown icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    label='…' update_freq=5 script="\"$CONFIG_DIR/plugins/system_usage.sh\"" \
+    click_script="open -a 'Activity Monitor'" \
+  --subscribe cpu system_woke
+sketchybar --add item memory right \
+  --set memory drawing=off icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    label='…' click_script="open -a 'Activity Monitor'"
+# AI subscription quotas supplied by the CodexBar CLI.
+# Set to true to re-enable the popup and quota polling.
+AI_QUOTAS_ENABLED=true
+if [ "$AI_QUOTAS_ENABLED" = true ]; then
+sketchybar --add item ai right \
+  --set ai drawing=off updates=on icon='󰚩' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    icon.color="$TEXT" label.drawing=off update_freq=300 \
+    script="\"$CONFIG_DIR/plugins/ai.sh\"" \
+    popup.align=right popup.height=26 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$ACCENT" \
+  --subscribe ai mouse.clicked mouse.exited.global system_woke
+for provider in codex claude copilot gemini; do
+  case "$provider" in
+    codex) title='Codex' ;; claude) title='Claude' ;;
+    copilot) title='Copilot' ;; gemini) title='Gemini' ;;
+  esac
+  sketchybar --add item "ai.$provider" popup.ai \
+    --set "ai.$provider" icon.drawing=off label="$title" \
+      label.font='RobotoMono Nerd Font:Bold:13.0' label.color="$ACCENT" \
+      label.padding_left=14 label.padding_right=18
+  for row in 0 1 2; do
+    sketchybar --add item "ai.$provider.$row" popup.ai \
+      --set "ai.$provider.$row" icon.drawing=off label='Waiting for quota data…' \
+        label.padding_left=14 label.padding_right=18
+  done
+done
+sketchybar --add item ai.updated popup.ai \
+  --set ai.updated icon.drawing=off label='Last checked: not yet' \
+    label.color="$MUTED" label.padding_left=14 label.padding_right=18 \
+    click_script="\"$CONFIG_DIR/plugins/ai.sh\" refresh"
+sketchybar --add item ai.settings popup.ai \
+  --set ai.settings icon='' label='Open CodexBar / sign in…' \
+    click_script="\"$CONFIG_DIR/plugins/ai.sh\" settings"
+fi
+# Pomodoro: 27-minute default with pause/resume and a persistent countdown.
+sketchybar --add item pomodoro right \
+  --set pomodoro drawing=off updates=on icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    label.drawing=off update_freq=2 script="\"$CONFIG_DIR/plugins/pomodoro.sh\"" \
+    popup.align=right popup.height=32 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$ACCENT" \
+  --subscribe pomodoro mouse.clicked mouse.exited.global system_woke
+sketchybar --add item pomodoro.status popup.pomodoro \
+  --set pomodoro.status icon.drawing=off label='Ready · 27 minutes' \
+    label.font='RobotoMono Nerd Font:Bold:13.0' label.color="$ACCENT" \
+    label.padding_left=14 label.padding_right=18
+for action in start pause reset shortcut; do
+  case "$action" in
+    start) title='Start 27 minutes'; icon=''; command=start ;;
+    pause) title='Pause'; icon=''; command=pause-toggle ;;
+    reset) title='Reset'; icon=''; command=reset ;;
+    shortcut) title='Run Start Pomodoro shortcut…'; icon=''; command=shortcut ;;
+  esac
+  sketchybar --add item "pomodoro.$action" popup.pomodoro \
+    --set "pomodoro.$action" icon="$icon" label="$title" \
+      label.padding_right=18 click_script="\"$CONFIG_DIR/plugins/pomodoro.sh\" $command"
+done
+# Apple Music only; visible whenever Music is open, including while paused.
+sketchybar --add event music_changed com.apple.Music.playerInfo
+sketchybar --add item music right \
+  --set music icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    drawing=off updates=on label.max_chars=28 scroll_texts=on label.scroll_duration=240 update_freq=20 \
+    script="\"$CONFIG_DIR/plugins/music.sh\"" \
+    popup.align=right popup.height=32 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$ACCENT" \
+  --subscribe music music_changed front_app_switched system_woke mouse.clicked mouse.exited.global
+sketchybar --add item music.artwork popup.music \
+  --set music.artwork icon.drawing=off label.drawing=off drawing=off \
+    width=160 background.height=144 background.drawing=on background.color=0x00000000 \
+    background.image.scale=1 background.image.corner_radius=8
+for detail in source title artist album; do
+  sketchybar --add item "music.$detail" popup.music \
+    --set "music.$detail" icon.drawing=off label='Apple Music' \
+      label.max_chars=45 label.padding_left=14 label.padding_right=18
+done
+sketchybar --set music.source label.color="$ACCENT" \
+  --set music.title label.font='RobotoMono Nerd Font:Bold:13.0' \
+  --set music.artist label.color="$MUTED" --set music.album label.color="$MUTED"
+for action in previous playpause next open; do
+  case "$action" in
+    previous) title='Previous track'; icon='' ;;
+    playpause) title='Play'; icon='' ;;
+    next) title='Next track'; icon='' ;;
+    open) title='Open Apple Music'; icon='' ;;
+  esac
+  sketchybar --add item "music.$action" popup.music \
+    --set "music.$action" icon="$icon" label="$title" label.padding_right=18 \
+      click_script="\"$CONFIG_DIR/plugins/music.sh\" $action"
+done
+# Volume and output-device controls.
+sketchybar --add item volume right \
+  --set volume icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    label.drawing=off update_freq=120 script="\"$CONFIG_DIR/plugins/volume.sh\"" \
+  --subscribe volume volume_change system_woke mouse.clicked mouse.exited.global
+for action in level down up mute settings; do
+  case "$action" in
+    level) title='Volume'; icon='' ;;
+    down) title='Volume −5%'; icon='' ;;
+    up) title='Volume +5%'; icon='' ;;
+    mute) title='Mute'; icon='' ;;
+    settings) title='Sound Settings…'; icon='' ;;
+  esac
+  sketchybar --add item "volume.$action" popup.volume \
+    --set "volume.$action" icon="$icon" label="$title" \
+      click_script="\"$CONFIG_DIR/plugins/volume.sh\" $action"
+done
+sketchybar --add item notifications right \
+  --set notifications icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    label.drawing=off click_script="\"$CONFIG_DIR/plugins/notifications.sh\""
+
+# One common visual style for menus; calendar rows retain their compact height.
+for parent in apple clock bluetooth wifi pomodoro music volume; do
+  sketchybar --set "$parent" popup.background.color="$BAR" \
+    popup.background.corner_radius=8 popup.background.border_width=1 \
+    popup.background.border_color="$ACCENT" popup.y_offset=6 popup.height=32
+done
+sketchybar --set clock popup.height=24
+if [ "$AI_QUOTAS_ENABLED" = true ]; then
+  sketchybar --set ai popup.height=32
+fi
+# Normalize menu row spacing without changing the main bar's compact spacing.
+for parent in apple bluetooth wifi ai pomodoro music volume; do
+  if [ "$parent" = ai ] && [ "$AI_QUOTAS_ENABLED" != true ]; then continue; fi
+  sketchybar --set "/^$parent[.]/" icon.width=26 icon.font='RobotoMono Nerd Font:Regular:16.0' \
+    label.padding_left=14 label.padding_right=18
+done
+# Slightly separate status items without widening their internal icon spacing.
+for item in controls notifications volume wifi bluetooth battery; do
+  sketchybar --set "$item" padding_left=2 padding_right=3
+done
+# Right-side items render in reverse order: notifications, volume, Wi-Fi.
+sketchybar --move volume after wifi --move notifications after volume
+sketchybar --update

@@ -9,6 +9,11 @@ config-version = 2
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
 
+# SketchyBar is started by Homebrew; notify it when the workspace changes.
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"; command -v sketchybar >/dev/null && sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$AEROSPACE_FOCUSED_WORKSPACE"'
+]
+
 # Start AeroSpace at login
 start-at-login = false
 
@@ -71,7 +76,7 @@ inner.horizontal = 5
 inner.vertical = 5
 outer.left = 5
 outer.bottom = 5
-outer.top = 5
+outer.top = 40
 outer.right = 5
 
 # 'main' binding mode declaration

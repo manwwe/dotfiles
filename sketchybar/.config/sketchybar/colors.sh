@@ -1,0 +1,8 @@
+# Catppuccin Mocha
+BAR=0xee1e1e2e
+TEXT=0xffcdd6f4
+MUTED=0xffa6adc8
+SURFACE=0xff313244
+ACCENT=0xffcba6f7
+GREEN=0xffa6e3a1
+RED=0xfff38ba8
