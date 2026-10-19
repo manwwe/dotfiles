@@ -54,3 +54,10 @@ quote_style = auto_prefer_single
 indent_style = space
 indent_size = 2
 
+[*.c]
+indent_style = space
+indent_size = 4
+
+[*.cpp]
+indent_style = space
+indent_size = 4
