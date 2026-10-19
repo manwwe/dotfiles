@@ -1,11 +1,10 @@
-font-family = "FiraCode Nerd Font Mono"
-font-size = 14
-
+font-family = "JetBrains Mono"
+font-size = 15
+font-style = "SemiBold"
 mouse-hide-while-typing = true
 cursor-invert-fg-bg = true
 window-theme = ghostty
 
-keybind = clear
 keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+j=goto_split:bottom
 keybind = ctrl+shift+k=goto_split:top
@@ -18,7 +17,8 @@ keybind = super+shift+w=close_surface
 split-divider-color = #a5adce
 window-decoration = false
 
-window-padding-y = 0,0
-window-padding-balance = true
+window-padding-y = 0
+window-padding-balance = false
 
 copy-on-select = clipboard
+adjust-icon-height = 20%
