@@ -1,6 +1,7 @@
 // JXA automation reads Music metadata without starting playback or opening a window.
 function run(argv) {
-    var music = Application('Music');
+    // A PID target cannot relaunch Music if it quits during this request.
+    var music = Application(Number(argv[1]));
     if (!music.running()) return JSON.stringify({running: false});
     switch (argv[0]) {
         case 'playpause': music.playpause(); break;

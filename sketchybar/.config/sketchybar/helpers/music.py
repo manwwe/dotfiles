@@ -7,27 +7,34 @@ from pathlib import Path
 import subprocess
 import sys
 
+def music_pid():
+    result = subprocess.run(['/usr/bin/pgrep', '-x', 'Music'], capture_output=True, text=True)
+    return result.stdout.splitlines()[0] if result.returncode == 0 and result.stdout.strip() else None
+
 def clean(value):
     return ' '.join(str(value or '').split())
 
 
 def apple_snapshot(action=''):
     # Do not launch Music when it is closed.
-    if subprocess.run(['/usr/bin/pgrep', '-x', 'Music'], stdout=subprocess.DEVNULL).returncode:
+    pid = music_pid()
+    if not pid:
         return None
     try:
         result = subprocess.run(
-            ['/usr/bin/osascript', '-l', 'JavaScript', str(Path(__file__).with_suffix('.js')), action],
+            ['/usr/bin/osascript', '-l', 'JavaScript', str(Path(__file__).with_suffix('.js')), action, pid],
             capture_output=True, text=True, timeout=8, check=True,
         )
         data = json.loads(result.stdout)
         if not data.get('running'):
             return None
-        return {'backend': 'apple', 'bundle': 'com.apple.Music', 'source': 'Apple Music',
+        return {'pid': pid, 'backend': 'apple', 'bundle': 'com.apple.Music', 'source': 'Apple Music',
                 'icon': '\uf001', 'playing': data.get('state') == 'playing',
                 'title': clean(data.get('title')) or 'Nothing playing',
                 'artist': clean(data.get('artist')), 'album': clean(data.get('album'))}
     except (subprocess.SubprocessError, ValueError):
+        if music_pid() != pid:
+            return None
         return {'backend': 'apple', 'bundle': 'com.apple.Music', 'source': 'Apple Music',
                 'icon': '\uf001', 'playing': False, 'title': 'Apple Music',
                 'artist': 'Allow Music access in Automation settings', 'album': ''}
@@ -46,7 +53,8 @@ def artwork(data):
         with tempfile.TemporaryDirectory(dir=cache) as temporary:
             raw = Path(temporary) / 'artwork'
             result = Path(temporary) / 'cover.jpg'
-            subprocess.run(['/usr/bin/osascript', str(Path(__file__).with_name('music_artwork.applescript')), str(raw)],
+            subprocess.run(['/usr/bin/osascript', '-l', 'JavaScript',
+                            str(Path(__file__).with_name('music_artwork.js')), str(raw), data.get('pid', '')],
                            capture_output=True, timeout=8, check=True)
             subprocess.run(['/usr/bin/sips', '-s', 'format', 'jpeg', '--resampleHeightWidth', '128', '128',
                             str(raw), '--out', str(result)], capture_output=True, timeout=5, check=True)
@@ -65,6 +73,9 @@ def render(data):
         return
     playing = data['playing']
     cover = artwork(data)
+    if not music_pid():
+        render(None)
+        return
     # Roboto Mono 13pt uses a 0.6em character advance. Give every popup row
     # the same content width, then center the 128px cover within that width.
     texts = [data['title'], data['artist'], data['album'], data['source'],

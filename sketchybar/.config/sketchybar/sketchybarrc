@@ -217,7 +217,7 @@ done
 sketchybar --add event music_changed com.apple.Music.playerInfo
 sketchybar --add item music right \
   --set music icon='' icon.font='RobotoMono Nerd Font:Regular:16.0' \
-    drawing=off updates=on label.max_chars=28 scroll_texts=on label.scroll_duration=240 update_freq=20 \
+    drawing=off updates=on label.max_chars=28 scroll_texts=on label.scroll_duration=240 update_freq=3 \
     script="\"$CONFIG_DIR/plugins/music.sh\"" \
     popup.align=right popup.height=32 popup.y_offset=6 \
     popup.background.color="$BAR" popup.background.corner_radius=8 \
