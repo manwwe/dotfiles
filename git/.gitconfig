@@ -1,8 +1,16 @@
 [user]
     name = Manuel Garcia
     email  = manuel@manwwe.com
-    signingkey = ~/.ssh/ssh_github
-    sshSigning = true
+    signingkey = ~/.ssh/id_ed25519_github.pub
+
+[gpg]
+    format = ssh
+
+[commit]
+    gpgsign = true
+
+[tag]
+    gpgsign = true
 
 [core]
     editor = nvim
