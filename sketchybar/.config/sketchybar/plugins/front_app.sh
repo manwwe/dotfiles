@@ -3,9 +3,10 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 if [ "${SENDER:-}" = front_app_switched ]; then
   app="$INFO"
 else
-  app=$(/usr/bin/lsappinfo info -only name "$(/usr/bin/lsappinfo front)" 2>/dev/null | /usr/bin/sed -n 's/^"LSDisplayName"="\(.*\)"$/\1/p')
+  app=$(aerospace list-windows --focused --format '%{app-name}' 2>/dev/null) || exit 0
 fi
-app="${app:-Desktop}"
+# A missing focused window or transient lookup failure must not erase the last app.
+[ -n "$app" ] || exit 0
 case "$app" in
   Firefox*) icon='󰈹' ;;
   Safari) icon='' ;;
@@ -26,6 +27,8 @@ case "$app" in
   Zed) icon='' ;;
   'Visual Studio Code'|'Code') icon='' ;;
   Obsidian|obsidian) icon='' ;;
+  Notion|notion) icon='' ;;
+  'Microsoft OneNote'|OneNote|onenote) icon='󰝇' ;;
   Finder) icon='󰉋' ;;
   'System Settings'|'System Preferences') icon='' ;;
   'Activity Monitor') icon='' ;;
