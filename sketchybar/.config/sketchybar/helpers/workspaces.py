@@ -13,7 +13,7 @@ def main():
         active = workspace == focused
         args += ['--set', 'space.' + workspace,
                  f'background.drawing={"on" if active else "off"}',
-                 f'label.color={"0xff1e1e2e" if active else "0xffcdd6f4"}']
+                 f'label.color={"0xff202026" if active else "0xffd5d4bc"}']
     subprocess.run(args, check=True)
 
 

@@ -41,9 +41,9 @@ def render(state, now):
     clock = f'{seconds // 60:02}:{seconds % 60:02}'
     text = {'idle': 'Ready · 27 minutes', 'running': f'Focus · {clock}',
             'paused': f'Paused · {clock}', 'complete': 'Session complete!'}[status]
-    color = '0xffa6e3a1' if status == 'running' else '0xffcdd6f4'
+    color = '0xffa6e3a1' if status == 'running' else '0xffd5d4bc'
     if status == 'complete':
-        color = '0xffcba6f7'
+        color = '0xffcac8a8'
     subprocess.run([
         'sketchybar', '--set', 'pomodoro', f'icon.color={color}',
         f'label={"Done" if status == "complete" else clock}',

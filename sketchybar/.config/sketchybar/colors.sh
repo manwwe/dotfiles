@@ -1,8 +1,8 @@
-# Catppuccin Mocha
-BAR=0xee1e1e2e
-TEXT=0xffcdd6f4
-MUTED=0xffa6adc8
-SURFACE=0xff313244
-ACCENT=0xffcba6f7
+# Charcoal and warm cream
+BAR=0xee202026
+TEXT=0xffd5d4bc
+MUTED=0xff929388
+SURFACE=0xff343438
+ACCENT=0xffcac8a8
 GREEN=0xffa6e3a1
 RED=0xfff38ba8

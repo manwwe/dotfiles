@@ -13,8 +13,8 @@ import time
 
 PROVIDERS = {'codex': 'oauth', 'claude': 'oauth', 'copilot': 'api', 'gemini': 'api'}
 CACHE = Path.home() / 'Library/Caches/sketchybar-ai'
-TEXT = '0xffcdd6f4'
-MUTED = '0xffa6adc8'
+TEXT = '0xffd5d4bc'
+MUTED = '0xff929388'
 
 
 def window_text(window, index):
