@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-PARENTS = ('apple', 'clock', 'bluetooth', 'wifi', 'ai', 'pomodoro', 'music', 'volume')
+PARENTS = ('apple', 'clock', 'bluetooth', 'wifi', 'ai', 'pomodoro', 'music', 'volume', 'battery', 'worldclock')
 
 def toggle(name):
     cache = Path.home() / 'Library/Caches/sketchybar-controls'

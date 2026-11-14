@@ -41,6 +41,9 @@ clang -O2 -Wall -Wextra "$CONFIG/helpers/mic_status.c" -framework CoreAudio -o "
 clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG/helpers/camera_status.m" -framework CoreMediaIO -o "$CONFIG/helpers/camera_status"
 clang -O2 -Wall -Wextra "$CONFIG/helpers/system_usage.c" -o "$CONFIG/helpers/system_usage"
 clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG/helpers/bluetooth_battery.m" -framework Foundation -framework CoreBluetooth -o "$CONFIG/helpers/bluetooth_battery"
+clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG/helpers/world_clock.m" -framework AppKit -o "$CONFIG/helpers/world_clock"
+clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG/helpers/calendar_popup.m" -framework AppKit -o "$CONFIG/helpers/calendar_popup"
+clang -O2 -fobjc-arc "$CONFIG/helpers/agenda.m" -framework EventKit -framework Foundation -sectcreate __TEXT __info_plist "$CONFIG/helpers/agenda.plist" -o "$CONFIG/helpers/agenda"
 brew services restart felixkratz/formulae/sketchybar
 if aerospace list-workspaces --focused >/dev/null 2>&1; then aerospace reload-config; fi
 echo 'SketchyBar activated. Allow Bluetooth and Music automation if prompted.'

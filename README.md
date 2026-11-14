@@ -55,7 +55,7 @@ Adapt paths as needed for your own machine.
 
 ## SketchyBar (macOS)
 
-Catppuccin Mocha bar with clickable AeroSpace workspaces 1–7, the active
+Charcoal and warm cream bar with clickable AeroSpace workspaces 1–7, the active
 application, battery with Nerd Font charge-level icons (hidden on desktops), and local date/time. Uses RobotoMono Nerd Font, with its Mono variant for calendar alignment.
 Battery icons show each 10% level, with a dedicated charging icon whenever the charger is
 connected, including when charging is paused. All use the standard text color; only levels at or below 10% turn red.
@@ -187,3 +187,26 @@ ask for confirmation before executing; Cancel is the default.
 
 The Music popup shows cached 128px album artwork when available from Apple Music.
 Tracks without artwork hide the cover row; no image is downloaded separately.
+
+Click the battery icon for charge, actual charging/paused/full status, time estimates
+when macOS provides them, condition, maximum capacity, cycle count, and Battery
+Settings. Details refresh on open, wake, and power-source changes. Missing health
+fields and unavailable time estimates are hidden. The icon still shows the plugged-in
+glyph on external power and turns red only at 10% or below.
+
+The globe beside the centered date opens an 18-hour world-clock comparison for
+California (America/Los_Angeles), Dallas (America/Chicago), and Lima
+(America/Lima). Each row shows local time, date, zone abbreviation, and offset
+from Lima. Daytime cells are brighter, and a shared Now line aligns the rows.
+IANA time zones handle daylight saving automatically. The grid refreshes each
+minute while open; closed popups do not regenerate the image.
+
+The date/time popup uses a 2× rendered calendar with the full month/year, today
+highlighted in purple, previous/next month controls, and a Today action. It keeps
+Sunday-first weeks and only renders when opened or navigated.
+
+The calendar popup includes today's synced Apple Calendar events (up to eight,
+plus a more indicator), all-day events and a highlight for the next/current timed
+appointment. EventKit requires full Calendar read access; use “Allow Calendar
+access…” in the popup if needed. Event contents are not written to disk by the
+widget. The list refreshes on open and every 30 seconds while the popup is open.

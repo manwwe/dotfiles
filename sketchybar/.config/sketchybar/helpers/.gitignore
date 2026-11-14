@@ -3,3 +3,6 @@
 /system_usage
 /__pycache__/
 /bluetooth_battery
+/world_clock
+/calendar_popup
+/agenda

@@ -1,16 +1,15 @@
 #!/bin/bash
 source "$CONFIG_DIR/plugins/common.sh"
+if [ "${1:-}" = open-calendar ]; then
+  sketchybar --set clock popup.drawing=off
+  /usr/bin/open -a Calendar
+  exit $?
+fi
 handle_popup clock "${1:-}" || exit 0
-sketchybar --set "$NAME" icon="$(LC_TIME=C /bin/date '+%a %d %b')" \
+sketchybar --set clock icon="$(LC_TIME=C /bin/date '+%a %d %b')" \
   label="$(/bin/date '+%H:%M')"
-[ "${SENDER:-}" = routine ] && exit 0
-row=0
-while IFS= read -r line; do
-  [ "$row" -ge 8 ] && break
-  sketchybar --set "calendar.$row" label="$line" drawing=on
-  row=$((row + 1))
-done < <(LC_ALL=C /usr/bin/cal)
-while [ "$row" -lt 8 ]; do
-  sketchybar --set "calendar.$row" drawing=off
-  row=$((row + 1))
-done
+if [ "${SENDER:-}" = routine ]; then
+  sketchybar --query clock | /usr/bin/jq -e '.popup.drawing == "on"' >/dev/null || exit 0
+fi
+python3 "$CONFIG_DIR/helpers/calendar_popup.py" "${1:-}"
+python3 "$CONFIG_DIR/helpers/agenda.py" "${1:-}"

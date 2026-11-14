@@ -63,17 +63,75 @@ sketchybar --add item clock center \
     popup.background.color="$BAR" popup.background.corner_radius=8 \
     popup.background.border_width=1 popup.background.border_color="$SURFACE" \
   --subscribe clock system_woke mouse.clicked mouse.exited.global
-for row in 0 1 2 3 4 5 6 7; do
-  sketchybar --add item "calendar.$row" popup.clock \
-    --set "calendar.$row" icon.drawing=off label.font='RobotoMono Nerd Font Mono:Regular:12.0' \
-      label.padding_left=14 label.padding_right=14
- done
+# Native Retina calendar, with real date cells instead of terminal cal output.
+if [ ! -x "$CONFIG_DIR/helpers/calendar_popup" ] || \
+   [ "$CONFIG_DIR/helpers/calendar_popup.m" -nt "$CONFIG_DIR/helpers/calendar_popup" ]; then
+  /usr/bin/clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG_DIR/helpers/calendar_popup.m" \
+    -framework AppKit -o "$CONFIG_DIR/helpers/calendar_popup"
+fi
+sketchybar --add item calendar.grid popup.clock \
+  --set calendar.grid icon.drawing=off label.drawing=off width=310 \
+    background.drawing=on background.color=0x00000000 \
+    background.image.scale=0.5 background.image.padding_left=8
+for action in previous today next; do
+  case "$action" in
+    previous) title='Previous month'; icon='' ;;
+    today) title='Today'; icon='' ;;
+    next) title='Next month'; icon='' ;;
+  esac
+  sketchybar --add item "calendar.$action" popup.clock \
+    --set "calendar.$action" icon="$icon" icon.width=26 label="$title" \
+      label.padding_left=14 label.padding_right=18 \
+      click_script="\"$CONFIG_DIR/plugins/clock.sh\" $action"
+done
+# EventKit access is requested explicitly; background refresh never prompts.
+if [ ! -x "$CONFIG_DIR/helpers/agenda" ] || [ "$CONFIG_DIR/helpers/agenda.m" -nt "$CONFIG_DIR/helpers/agenda" ]; then
+  /usr/bin/clang -O2 -fobjc-arc "$CONFIG_DIR/helpers/agenda.m" -framework EventKit -framework Foundation \
+    -sectcreate __TEXT __info_plist "$CONFIG_DIR/helpers/agenda.plist" -o "$CONFIG_DIR/helpers/agenda"
+fi
+sketchybar --add item agenda.heading popup.clock \
+  --set agenda.heading icon.drawing=off label="Today's appointments" label.color="$ACCENT" label.padding_left=14
+for row in 0 1 2 3 4 5 6 7 8; do
+  sketchybar --add item "agenda.$row" popup.clock \
+    --set "agenda.$row" icon.drawing=off label='Checking…' label.max_chars=38 \
+      label.padding_left=14 label.padding_right=18
+done
+sketchybar --add item agenda.open popup.clock \
+  --set agenda.open icon='' label='Open Calendar' \
+    click_script="\"$CONFIG_DIR/plugins/clock.sh\" open-calendar"
+# World clock beside the centered date: daylight-saving-aware comparison grid.
+if [ ! -x "$CONFIG_DIR/helpers/world_clock" ] || \
+   [ "$CONFIG_DIR/helpers/world_clock.m" -nt "$CONFIG_DIR/helpers/world_clock" ]; then
+  /usr/bin/clang -O2 -Wall -Wextra -fobjc-arc "$CONFIG_DIR/helpers/world_clock.m" \
+    -framework AppKit -o "$CONFIG_DIR/helpers/world_clock"
+fi
+sketchybar --add item worldclock center \
+  --set worldclock icon='' icon.font='RobotoMono Nerd Font:Regular:13.0' \
+    label.drawing=off padding_left=4 update_freq=60 \
+    script="\"$CONFIG_DIR/plugins/worldclock.sh\"" \
+    popup.align=center popup.height=258 popup.y_offset=6 \
+    popup.background.color="$BAR" popup.background.corner_radius=8 \
+    popup.background.border_width=1 popup.background.border_color="$ACCENT" \
+  --subscribe worldclock mouse.clicked mouse.exited.global system_woke
+sketchybar --add item worldclock.grid popup.worldclock \
+  --set worldclock.grid icon.drawing=off label.drawing=off width=836 \
+    background.height=258 background.drawing=on background.color=0x00000000 \
+    background.image.padding_left=8 background.image.corner_radius=6 background.image.scale=0.5
 sketchybar --add item battery right \
   --set battery icon.drawing=on icon.font='RobotoMono Nerd Font:SemiBold:16.0' \
     label.font='RobotoMono Nerd Font:SemiBold:11.0' label.padding_left=0 label.padding_right=4 \
     label.drawing=off update_freq=60 \
     script="\"$CONFIG_DIR/plugins/battery.sh\"" \
-  --subscribe battery power_source_change system_woke
+  --subscribe battery power_source_change system_woke mouse.clicked mouse.exited.global
+for detail in charge status time health capacity cycles; do
+  sketchybar --add item "battery.$detail" popup.battery \
+    --set "battery.$detail" icon.drawing=off label='Checking…' \
+      label.padding_left=14 label.padding_right=18
+done
+sketchybar --set battery.charge label.font='RobotoMono Nerd Font:Bold:13.0' label.color="$ACCENT"
+sketchybar --add item battery.settings popup.battery \
+  --set battery.settings icon='' label='Battery Settings…' \
+    click_script="\"$CONFIG_DIR/plugins/battery.sh\" settings"
 # Standard BLE battery service fallback (e.g. Logitech mice).
 if [ ! -x "$CONFIG_DIR/helpers/bluetooth_battery" ] || \
    [ "$CONFIG_DIR/helpers/bluetooth_battery.m" -nt "$CONFIG_DIR/helpers/bluetooth_battery" ]; then
@@ -268,17 +326,18 @@ sketchybar --add item notifications right \
     label.drawing=off click_script="\"$CONFIG_DIR/plugins/notifications.sh\""
 
 # One common visual style for menus; calendar rows retain their compact height.
-for parent in apple clock bluetooth wifi pomodoro music volume; do
+for parent in apple clock bluetooth wifi pomodoro music volume battery; do
   sketchybar --set "$parent" popup.background.color="$BAR" \
     popup.background.corner_radius=8 popup.background.border_width=1 \
     popup.background.border_color="$ACCENT" popup.y_offset=6 popup.height=32
 done
+sketchybar --set battery popup.align=right
 sketchybar --set clock popup.height=24
 if [ "$AI_QUOTAS_ENABLED" = true ]; then
   sketchybar --set ai popup.height=32
 fi
 # Normalize menu row spacing without changing the main bar's compact spacing.
-for parent in apple bluetooth wifi ai pomodoro music volume; do
+for parent in apple bluetooth wifi ai pomodoro music volume battery; do
   if [ "$parent" = ai ] && [ "$AI_QUOTAS_ENABLED" != true ]; then continue; fi
   sketchybar --set "/^$parent[.]/" icon.width=26 icon.font='RobotoMono Nerd Font:Regular:16.0' \
     label.padding_left=14 label.padding_right=18
