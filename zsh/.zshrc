@@ -120,11 +120,11 @@ autoload -Uz add-zsh-hook
 
 # fastfetch
 if [[ "$TERM_PROGRAM" != "zed" ]]; then
-   fastfetch --file ~/repos/github/dotfiles/ascii_art/snorlax.ans
+   fastfetch --file ~/code/manwwe/dotfiles/ascii_art/snorlax.ans
 fi
 
 # Port Kill
-export PATH="$PATH:/Users/ender/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 # LLVM path
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
