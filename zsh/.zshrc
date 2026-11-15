@@ -124,7 +124,7 @@ if [[ "$TERM_PROGRAM" != "zed" ]]; then
 fi
 
 # Port Kill
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
 # LLVM path
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
