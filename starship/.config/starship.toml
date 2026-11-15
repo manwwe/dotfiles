@@ -1,66 +1,80 @@
-command_timeout = 5000
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+# Cambia aquí la paleta: "tokyo_night", "catppuccin_mocha" o "gruvbox"
+palette = "gruvbox"
 
 format = """
-[░▒▓](#a3aed2)\
-[ 󰊠 ](bg:#a3aed2 fg:#090c0c)\
-[](bg:#769ff0 fg:#a3aed2)\
-$directory\
-[](fg:#769ff0 bg:#394260)\
-$git_branch\
-$git_status\
-[](fg:#394260 bg:#212736)\
-$nodejs\
-$rust\
-$golang\
-$php\
-[](fg:#212736 bg:#1d2230)\
-$time\
-[ ](fg:#1d2230)\
-\n$character"""
+$directory${custom.repo_icon}$git_branch$git_status
+$character"""
 
+# Línea 1: bloques cuadrados, sin separadores
 [directory]
-style = "fg:#e3e5e5 bg:#769ff0"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
+style = "bold fg:text bg:dir"
+format = "[  $path ]($style)"
+truncation_length = 2
+truncate_to_repo = false
 
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
+# \u00cdcono del repo: GitHub si origin apunta a github.com, si no el de git
+# Un solo comando de git por prompt; los \u00edconos van en bytes UTF-8 (octal)
+# \356\234\211 = nf-dev-github (e709)   \357\207\222 = nf-fa-square_git (f1d2)
+[custom.repo_icon]
+command = '''case "$(git config --get remote.origin.url)" in *github.com*) printf '\356\234\211' ;; *) printf '\357\207\222' ;; esac'''
+when = true
+require_repo = true
+shell = ["sh"]
+style = "fg:text bg:branch"
+format = "[ $output]($style)"
 
 [git_branch]
-symbol = ""
-style = "bg:#394260"
-format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+style = "fg:text bg:branch"
+format = "[ $branch ]($style)"
 
 [git_status]
-style = "bg:#394260"
-format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+style = "fg:text bg:status"
+# Cada estado empieza con un espacio para separarlos; íconos Octicons
+format = "([$all_status$ahead_behind ]($style))"
+conflicted = " "                          # nf-oct-alert
+stashed = " "                             # nf-oct-archive
+deleted = " "                             # nf-oct-trash
+renamed = " "                             # nf-oct-file_moved
+modified = " "                            # nf-oct-pencil
+staged = " "                              # nf-oct-check
+untracked = " "                           # nf-oct-question
+ahead = " "                               # nf-oct-arrow_up
+behind = " "                              # nf-oct-arrow_down
+diverged = " "  # nf-oct-arrow_switch
 
-[nodejs]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+# Línea 2: fantasma (nf-md-ghost) + flecha (nf-fa-angles_right) (verde si OK, roja si falló)
+[character]
+success_symbol = "[\U000f02a0](fg:apple) [\uf101](bold fg:ok)"
+error_symbol = "[\U000f02a0](fg:apple) [\uf101](bold fg:err)"
 
-[rust]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+# Paletas
+[palettes.tokyo_night]
+text   = "#1a1b26"
+dir    = "#7aa2f7"
+branch = "#9ece6a"
+status = "#e0af68"
+apple  = "#c0caf5"
+ok     = "#9ece6a"
+err    = "#f7768e"
 
-[golang]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+[palettes.catppuccin_mocha]
+text   = "#11111b"
+dir    = "#89b4fa"
+branch = "#a6e3a1"
+status = "#f9e2af"
+apple  = "#cdd6f4"
+ok     = "#a6e3a1"
+err    = "#f38ba8"
 
-[php]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
-
-[time]
-disabled = false
-time_format = "%R"                                      # Hour:Minute Format
-style = "bg:#1d2230"
-format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+[palettes.gruvbox]
+text   = "#282828"
+dir    = "#83a598"
+branch = "#b8bb26"
+status = "#fabd2f"
+apple  = "#ebdbb2"
+ok     = "#b8bb26"
+err    = "#fb4934"
